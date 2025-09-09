@@ -1,26 +1,14 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.AutoOp;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
 
-public class PedroAutoBeta extends OpMode {
+public class PedroAutoBeta extends NextFTCOpMode {
 
     @Override
-    public void init() {
+    public void onInit() {
     }
 
     @Override
-    public void init_loop() {
-    }
-
-    @Override
-    public void start() {
-    }
-
-    @Override
-    public void loop() {
-    }
-
-    @Override
-    public void stop() {
+    public void onStartButtonPressed() {
     }
 }
