@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.subsystem;
 
-import static org.firstinspires.ftc.teamcode.pedroPathing.Globals.ServoPostions.*;
+import static org.firstinspires.ftc.teamcode.pedroPathing.Globals.ServoPositions.*;
 import java.util.Map;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple;

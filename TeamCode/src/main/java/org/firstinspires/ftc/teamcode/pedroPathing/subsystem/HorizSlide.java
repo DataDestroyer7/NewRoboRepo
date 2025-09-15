@@ -1,18 +1,15 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.subsystem;
 
 import com.qualcomm.robotcore.hardware.Servo;
-import com.rowanmcalpin.nextftc.core.Subsystem;
-import com.rowanmcalpin.nextftc.core.command.Command;
-import com.rowanmcalpin.nextftc.ftc.OpModeData;
-import com.rowanmcalpin.nextftc.ftc.hardware.MultipleServosToSeperatePositions;
-import com.rowanmcalpin.nextftc.ftc.hardware.ServoToPosition;
 
-import static org.firstinspires.ftc.teamcode.pedroPathing.Globals.ServoPostions.*;
+import static org.firstinspires.ftc.teamcode.pedroPathing.Globals.ServoPositions.*;
 
 import java.util.Map;
 
+import dev.nextftc.core.subsystems.Subsystem;
 
-public class HorizSlide extends Subsystem {
+
+public class HorizSlide implements Subsystem {
     public static final HorizSlide INSTANCE = new HorizSlide();
     private HorizSlide() {}
 

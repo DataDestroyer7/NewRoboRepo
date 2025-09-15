@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.Globals;
 
-public class ServoPostions {
+public class ServoPositions {
     public static final double LINKAGE_POSITION_INIT = 0.0;
     public static final double LINKAGE_POSITION_EXTEND = 0.5;
     public static final double LINKAGE_POSITION_RETRACT = 0.13;

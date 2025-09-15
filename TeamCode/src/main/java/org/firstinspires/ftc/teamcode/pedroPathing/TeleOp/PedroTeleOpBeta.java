@@ -1,17 +1,27 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.TeleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.rowanmcalpin.nextftc.core.command.CommandManager;
-import com.rowanmcalpin.nextftc.ftc.NextFTCOpMode;
-import com.rowanmcalpin.nextftc.pedro.DriverControlled;
 
-import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.HorizSlide;
-import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.VertSlide;
+import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.InputSystem;
+import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.OutputSystem;
+import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.SlideSystem;
+
+import dev.nextftc.core.components.BindingsComponent;
+import dev.nextftc.core.components.SubsystemComponent;
+import dev.nextftc.extensions.pedro.PedroDriverControlled;
+import dev.nextftc.ftc.Gamepads;
+import dev.nextftc.ftc.NextFTCOpMode;
+import dev.nextftc.ftc.components.BulkReadComponent;
+import dev.nextftc.hardware.driving.DriverControlledCommand;
 
 @TeleOp(name = "Beta TeleOp")
 public class PedroTeleOpBeta extends NextFTCOpMode {
     public PedroTeleOpBeta() {
-        super(HorizSlide.INSTANCE, VertSlide.INSTANCE);
+        addComponents(
+                new SubsystemComponent(InputSystem.INSTANCE, OutputSystem.INSTANCE, SlideSystem.INSTANCE),
+                        BulkReadComponent.INSTANCE,
+                        BindingsComponent.INSTANCE
+        );
     }
 
     @Override
@@ -20,8 +30,13 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
 
     @Override
     public void onStartButtonPressed() {
-        CommandManager.INSTANCE.scheduleCommand(new DriverControlled(gamepadManager.getGamepad1(), true));
+        DriverControlledCommand driverControlled = new PedroDriverControlled(
+                Gamepads.gamepad1().leftStickY(),
+                Gamepads.gamepad1().leftStickX(),
+                Gamepads.gamepad1().rightStickX()
+        );
+        driverControlled.schedule();
 
-        gamepadManager.getGamepad2().getDpadUp().setPressedCommand(HorizSlide.INSTANCE::extendIntake);
+
     }
 }
