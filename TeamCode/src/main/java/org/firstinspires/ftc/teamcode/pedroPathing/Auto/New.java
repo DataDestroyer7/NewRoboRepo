@@ -36,30 +36,14 @@ public class New extends NextFTCOpMode {
     public void Paths() {
         Path1 = follower()
                 .pathBuilder()
-                .addPath(
-                        new BezierLine(new Pose(56.000, 8.000), new Pose(55.475, 64.210))
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(180))
-                .build();
-
-        Path2 = follower()
-                .pathBuilder()
-                .addPath(
-                        new BezierLine(new Pose(55.475, 64.210), new Pose(95.134, 106.702))
-                )
-                .setTangentHeadingInterpolation()
+                .addPath(new BezierLine(new Pose(60.000, 9.000), new Pose(36.000, 9.000)))
+                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(90))
                 .build();
     }
 
     private Command autonomousRoutine() {
         return new SequentialGroup(
-                new ParallelGroup(
-                        new FollowPath(Path1)
-                ),
-                new Delay(0.5),
-                new ParallelGroup(
-
-                )
+                new FollowPath(Path1)
         );
     }
 
