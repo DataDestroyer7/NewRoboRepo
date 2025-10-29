@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.OutputSystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.SlideSystem;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.extensions.pedro.PedroDriverControlled;
@@ -60,6 +61,9 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
                 .toggleOnBecomesTrue()
                 .whenBecomesTrue(FlyWheels.INSTANCE.moveServo)
                 .whenBecomesFalse(FlyWheels.INSTANCE.returnServo);
+        Gamepads.gamepad2().y()
+                //Extends and retracts servo on button press with a fixed delay
+                .whenBecomesTrue(FlyWheels.INSTANCE.moveServo.and(new Delay(1)).and(FlyWheels.INSTANCE.returnServo));
 
     }
 }
