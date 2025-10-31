@@ -34,9 +34,9 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
     }
 
     // change the names and directions to suit your robot
-    private final MotorEx frontLeftMotor = new MotorEx("frontLeftMotor").reversed();
+    private final MotorEx frontLeftMotor = new MotorEx("frontLeftMotor");
     private final MotorEx frontRightMotor = new MotorEx("frontRightMotor");
-    private final MotorEx backLeftMotor = new MotorEx("backLeftMotor").reversed();
+    private final MotorEx backLeftMotor = new MotorEx("backLeftMotor");
     private final MotorEx backRightMotor = new MotorEx("backRightMotor");
 
     @Override
@@ -46,9 +46,9 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
                 frontRightMotor,
                 backLeftMotor,
                 backRightMotor,
-                Gamepads.gamepad1().leftStickY().negate(),
+                Gamepads.gamepad1().rightStickX().negate(),
                 Gamepads.gamepad1().leftStickX(),
-                Gamepads.gamepad1().rightStickX()
+                Gamepads.gamepad1().leftStickY()
         );
         boolean isSpinning = false;
         driverControlled.schedule();
@@ -63,7 +63,17 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
                 .whenBecomesFalse(FlyWheels.INSTANCE.returnServo);
         Gamepads.gamepad2().y()
                 //Extends and retracts servo on button press with a fixed delay
-                .whenBecomesTrue(FlyWheels.INSTANCE.moveServo.and(new Delay(1)).and(FlyWheels.INSTANCE.returnServo));
+                .whenBecomesTrue(FlyWheels.INSTANCE.returnServo
+                        .then(new Delay(1))
+                        .then(FlyWheels.INSTANCE.moveServo));
+        Gamepads.gamepad2().b()
+                .toggleOnBecomesTrue()
+                .whenBecomesTrue(FlyWheels.INSTANCE.moveFlyWheels
+                        .then(new Delay(1))
+                        .then(FlyWheels.INSTANCE.moveServo))
+                .whenBecomesFalse(FlyWheels.INSTANCE.stopFlyWheels
+                        .then(FlyWheels.INSTANCE.returnServo));
+
 
     }
 }

@@ -31,7 +31,7 @@ public class FlyWheels implements Subsystem {
     public Command stopFlyWheels = new SetPower(myMotorGroup, 0);
 
 
-    public Command moveServo = new SetPosition(ballLauncher, 0.4);
-    public Command returnServo = new SetPosition(ballLauncher, 0.25);
+    public Command moveServo = new SetPosition(ballLauncher, 0.7);
+    public Command returnServo = new SetPosition(ballLauncher, 1);
 }
 
