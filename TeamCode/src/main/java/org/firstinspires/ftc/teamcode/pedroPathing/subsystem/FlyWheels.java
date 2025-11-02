@@ -29,7 +29,7 @@ public class FlyWheels implements Subsystem {
     MotorGroup myMotorGroup = new MotorGroup(leftFlyWheel, rightFlyWheel);
 
     //When battery is less than 13 volts
-    public Command moveFlyWheelsFast = new SetPower(myMotorGroup, 0.85);
+    public Command moveFlyWheelsFast = new SetPower(myMotorGroup, 0.8);
 
     //When battery is more than 13 volts
     public Command moveFlyWheelsSlow = new SetPower(myMotorGroup, 0.65);

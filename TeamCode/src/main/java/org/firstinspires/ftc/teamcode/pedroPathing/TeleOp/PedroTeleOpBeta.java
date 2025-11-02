@@ -72,7 +72,7 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
                         .then(new Delay(1))
                         .then(FlyWheels.INSTANCE.moveServo));
 
-        Gamepads.gamepad2().b()
+        Gamepads.gamepad2().dpadUp()
                 .whenBecomesTrue(FlyWheels.INSTANCE.moveFlyWheelsFast
                         .then(new Delay(2))
                         .then(FlyWheels.INSTANCE.moveServo)
@@ -98,6 +98,7 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
                         .then(FlyWheels.INSTANCE.stopFlyWheels)
                         .then(new Delay(1))
                         .then(FlyWheels.INSTANCE.returnServo));
+
 
                         //if it works it works
 

@@ -17,7 +17,7 @@ import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 import static dev.nextftc.extensions.pedro.PedroComponent.follower;
 
-@Autonomous(name = "Short Red Autonomous")
+@Autonomous(name = "Long Blue Autonomous")
 public class ShortRed extends NextFTCOpMode {
     public ShortRed() {
         addComponents(
@@ -31,10 +31,10 @@ public class ShortRed extends NextFTCOpMode {
     public PathChain Path2;
 
     public void Paths() {
-        Path1 = follower()
+        Path1 = PedroComponent.follower()
                 .pathBuilder()
-                .addPath(new BezierLine(new Pose(60.000, 9.000), new Pose(36.000, 9.000)))
-                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(90))
+                .addPath(new BezierLine(new Pose(0, 0), new Pose(0, 24)))
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
     }
 
@@ -42,6 +42,11 @@ public class ShortRed extends NextFTCOpMode {
         return new SequentialGroup(
                 new FollowPath(Path1)
         );
+    }
+
+    @Override
+    public void onInit() {
+        Paths();
     }
 
     @Override
