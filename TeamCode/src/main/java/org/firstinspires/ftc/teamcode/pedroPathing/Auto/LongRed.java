@@ -18,7 +18,7 @@ import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 import static dev.nextftc.extensions.pedro.PedroComponent.follower;
 
-@Autonomous(name = "NextFTC Autonomous Program Java")
+@Autonomous(name = "Long Red Autonomous")
 public class LongRed extends NextFTCOpMode {
     public LongRed() {
         addComponents(

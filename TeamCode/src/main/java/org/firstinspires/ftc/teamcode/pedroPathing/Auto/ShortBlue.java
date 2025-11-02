@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.Auto;
 
+import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.follower;
+
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
@@ -17,7 +19,7 @@ import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 import static dev.nextftc.extensions.pedro.PedroComponent.follower;
 
-@Autonomous(name = "NextFTC Autonomous Program Java")
+@Autonomous(name = "Short Blue Autonomous")
 public class ShortBlue extends NextFTCOpMode {
     public ShortBlue() {
         addComponents(
@@ -31,7 +33,7 @@ public class ShortBlue extends NextFTCOpMode {
     public PathChain Path2;
 
     public void Paths() {
-        Path1 = follower()
+        Path1 = follower
                 .pathBuilder()
                 .addPath(
                         new BezierLine(new Pose(84.000, 9.000), new Pose(108.000, 9.000))

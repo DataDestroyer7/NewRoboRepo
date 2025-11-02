@@ -17,7 +17,7 @@ import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 import static dev.nextftc.extensions.pedro.PedroComponent.follower;
 
-@Autonomous(name = "NextFTC Autonomous Program Java")
+@Autonomous(name = "Short Red Autonomous")
 public class ShortRed extends NextFTCOpMode {
     public ShortRed() {
         addComponents(

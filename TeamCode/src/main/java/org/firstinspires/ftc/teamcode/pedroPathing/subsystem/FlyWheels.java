@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.groups.SequentialGroup;
+import dev.nextftc.core.commands.utility.LambdaCommand;
 import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.hardware.controllable.MotorGroup;
 import dev.nextftc.hardware.impl.MotorEx;
@@ -24,14 +25,28 @@ public class FlyWheels implements Subsystem {
 
     private MotorEx leftFlyWheel = new MotorEx("left_fly").reversed();
     private MotorEx rightFlyWheel = new MotorEx("right_fly");
+
     MotorGroup myMotorGroup = new MotorGroup(leftFlyWheel, rightFlyWheel);
 
+    //When battery is less than 13 volts
+    public Command moveFlyWheelsFast = new SetPower(myMotorGroup, 0.85);
 
-    public Command moveFlyWheels = new SetPower(myMotorGroup, 0.85);
+    //When battery is more than 13 volts
+    public Command moveFlyWheelsSlow = new SetPower(myMotorGroup, 0.65);
+
     public Command stopFlyWheels = new SetPower(myMotorGroup, 0);
 
 
     public Command moveServo = new SetPosition(ballLauncher, 0.7);
-    public Command returnServo = new SetPosition(ballLauncher, 1);
+    public Command returnServo = new SetPosition(ballLauncher, 0.83);
+
+
+
+
+
+
+
+
+
 }
 

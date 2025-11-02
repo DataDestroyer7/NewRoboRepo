@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.OutputSystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.SlideSystem;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.conditionals.IfElseCommand;
 import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
@@ -34,10 +35,12 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
     }
 
     // change the names and directions to suit your robot
-    private final MotorEx frontLeftMotor = new MotorEx("frontLeftMotor");
+    private final MotorEx frontLeftMotor = new MotorEx("frontLeftMotor").reversed();
     private final MotorEx frontRightMotor = new MotorEx("frontRightMotor");
-    private final MotorEx backLeftMotor = new MotorEx("backLeftMotor");
+    private final MotorEx backLeftMotor = new MotorEx("backLeftMotor").reversed();
     private final MotorEx backRightMotor = new MotorEx("backRightMotor");
+
+    private boolean isSlow = false;
 
     @Override
     public void onStartButtonPressed() {
@@ -46,33 +49,65 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
                 frontRightMotor,
                 backLeftMotor,
                 backRightMotor,
-                Gamepads.gamepad1().rightStickX().negate(),
+                Gamepads.gamepad1().leftStickY().negate(),
                 Gamepads.gamepad1().leftStickX(),
-                Gamepads.gamepad1().leftStickY()
+                Gamepads.gamepad1().rightStickX()
         );
-        boolean isSpinning = false;
         driverControlled.schedule();
 
         Gamepads.gamepad2().a()
                 .toggleOnBecomesTrue()
-                .whenBecomesTrue(FlyWheels.INSTANCE.moveFlyWheels)
+                .whenBecomesTrue(FlyWheels.INSTANCE.moveFlyWheelsFast)
                 .whenBecomesFalse(FlyWheels.INSTANCE.stopFlyWheels);
+
+
         Gamepads.gamepad2().x()
                 .toggleOnBecomesTrue()
                 .whenBecomesTrue(FlyWheels.INSTANCE.moveServo)
                 .whenBecomesFalse(FlyWheels.INSTANCE.returnServo);
+
         Gamepads.gamepad2().y()
                 //Extends and retracts servo on button press with a fixed delay
                 .whenBecomesTrue(FlyWheels.INSTANCE.returnServo
                         .then(new Delay(1))
                         .then(FlyWheels.INSTANCE.moveServo));
+
         Gamepads.gamepad2().b()
-                .toggleOnBecomesTrue()
-                .whenBecomesTrue(FlyWheels.INSTANCE.moveFlyWheels
+                .whenBecomesTrue(FlyWheels.INSTANCE.moveFlyWheelsFast
+                        .then(new Delay(2))
+                        .then(FlyWheels.INSTANCE.moveServo)
+                        .then(new Delay(0.25))
+                        .then(FlyWheels.INSTANCE.stopFlyWheels)
                         .then(new Delay(1))
-                        .then(FlyWheels.INSTANCE.moveServo))
-                .whenBecomesFalse(FlyWheels.INSTANCE.stopFlyWheels
+                        .then(FlyWheels.INSTANCE.returnServo)
+
+                        .then(new Delay(1))
+                        .then(FlyWheels.INSTANCE.moveFlyWheelsFast)
+                        .then(new Delay(2))
+                        .then(FlyWheels.INSTANCE.moveServo)
+                        .then(new Delay(0.25))
+                        .then(FlyWheels.INSTANCE.stopFlyWheels)
+                        .then(new Delay(1))
+                        .then(FlyWheels.INSTANCE.returnServo)
+
+                        .then(new Delay(1))
+                        .then(FlyWheels.INSTANCE.moveFlyWheelsFast)
+                        .then(new Delay(2))
+                        .then(FlyWheels.INSTANCE.moveServo)
+                        .then(new Delay(0.25))
+                        .then(FlyWheels.INSTANCE.stopFlyWheels)
+                        .then(new Delay(1))
                         .then(FlyWheels.INSTANCE.returnServo));
+
+                        //if it works it works
+
+
+
+
+
+
+        //telemetry.addData("SPEED OF FLYWHEEL: ", FlyWheels.getPower());
+        //telemetry.update();
 
 
     }
