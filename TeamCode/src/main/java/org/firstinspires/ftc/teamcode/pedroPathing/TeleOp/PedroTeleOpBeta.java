@@ -55,24 +55,30 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
         );
         driverControlled.schedule();
 
-        Gamepads.gamepad2().a()
+        Gamepads.gamepad1().a()
                 .toggleOnBecomesTrue()
-                .whenBecomesTrue(FlyWheels.INSTANCE.moveFlyWheelsFast)
-                .whenBecomesFalse(FlyWheels.INSTANCE.stopFlyWheels);
+                .whenBecomesTrue(FlyWheels.INSTANCE.flyWheelFast)
+                .whenBecomesFalse(FlyWheels.INSTANCE.flyWheelStop);
 
 
-        Gamepads.gamepad2().x()
+        Gamepads.gamepad1().x()
                 .toggleOnBecomesTrue()
                 .whenBecomesTrue(FlyWheels.INSTANCE.moveServo)
                 .whenBecomesFalse(FlyWheels.INSTANCE.returnServo);
 
-        Gamepads.gamepad2().y()
+        //fast and slow
+        Gamepads.gamepad1().b()
+                .toggleOnBecomesTrue()
+                .whenBecomesTrue(FlyWheels.INSTANCE.flyWheelFast)
+                .whenBecomesFalse(FlyWheels.INSTANCE.flyWheelSlow);
+
+        Gamepads.gamepad1().y()
                 //Extends and retracts servo on button press with a fixed delay
                 .whenBecomesTrue(FlyWheels.INSTANCE.returnServo
                         .then(new Delay(1))
                         .then(FlyWheels.INSTANCE.moveServo));
 
-        Gamepads.gamepad2().dpadUp()
+        Gamepads.gamepad1().dpadUp()
                 .whenBecomesTrue(FlyWheels.INSTANCE.moveFlyWheelsFast
                         .then(new Delay(2))
                         .then(FlyWheels.INSTANCE.moveServo)
