@@ -28,8 +28,8 @@ public class FlyWheels implements Subsystem {
     // leftIn is reversed(use 1-position logic)
     private ServoEx ballLauncher = new ServoEx("ball_launcher");
 
-    private MotorEx leftFlyWheel = new MotorEx("left_fly").reversed();
-    private MotorEx rightFlyWheel = new MotorEx("right_fly");
+    private MotorEx leftFlyWheel = new MotorEx("left_fly").reversed().brakeMode();
+    private MotorEx rightFlyWheel = new MotorEx("right_fly").brakeMode();
 
     MotorGroup myMotorGroup = new MotorGroup(leftFlyWheel, rightFlyWheel);
 
@@ -39,7 +39,7 @@ public class FlyWheels implements Subsystem {
     public Command stopFlyWheels = new SetPower(myMotorGroup, 0);
 
     public ControlSystem controlSystem = ControlSystem.builder()
-            .velPid(0, 0, 0)
+            .velPid(0.01, 0, 0)
             .build();
 
 

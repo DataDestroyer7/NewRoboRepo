@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.TeleOp;
 
+import com.bylazar.telemetry.TelemetryManager;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.FlyWheels;
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.OutputSystem;
 import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.SlideSystem;
 
 import dev.nextftc.core.commands.Command;
+import com.bylazar.telemetry.PanelsTelemetry;
 import dev.nextftc.core.commands.conditionals.IfElseCommand;
 import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.components.BindingsComponent;
@@ -30,6 +32,8 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
         );
     }
 
+    TelemetryManager panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();;
+
     @Override
     public void onInit() {
     }
@@ -49,9 +53,9 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
                 frontRightMotor,
                 backLeftMotor,
                 backRightMotor,
-                Gamepads.gamepad1().leftStickY().negate(),
-                Gamepads.gamepad1().leftStickX(),
-                Gamepads.gamepad1().rightStickX()
+                Gamepads.gamepad2().leftStickY().negate(),
+                Gamepads.gamepad2().leftStickX(),
+                Gamepads.gamepad2().rightStickX()
         );
         driverControlled.schedule();
 
@@ -113,8 +117,9 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
 
 
 
-        //telemetry.addData("SPEED OF FLYWHEEL: ", FlyWheels.getPower());
-        //telemetry.update();
+        panelsTelemetry.addData("SPEED OF FLYWHEEL: ", FlyWheels.getPower());
+        panelsTelemetry.addData("SPEED OF FLYWHEEL: ", FlyWheels.getPower());
+        panelsTelemetry.update();
 
 
     }
