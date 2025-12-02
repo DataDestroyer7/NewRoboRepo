@@ -23,7 +23,11 @@ public class FlyWheels implements Subsystem {
     public static final FlyWheels INSTANCE = new FlyWheels();
     private FlyWheels() {}
 
+    public MotorEx intakeSys = new MotorEx("intake").brakeMode();
+
     public double targetVelocity = 0;
+
+    public boolean isFlyWheelOn = false;
 
     // leftIn is reversed(use 1-position logic)
     private ServoEx ballLauncher = new ServoEx("ball_launcher");
@@ -56,6 +60,11 @@ public class FlyWheels implements Subsystem {
         targetVelocity = 0;
     });
 
+
+
+    public Command intakeStart = new SetPower(intakeSys, 1);
+    public Command intakeStop = new SetPower(intakeSys, 0);
+
     @Override
     public void periodic(){
         myMotorGroup.setPower(
@@ -64,8 +73,6 @@ public class FlyWheels implements Subsystem {
                 )
         );
     }
-
-
 
 }
 

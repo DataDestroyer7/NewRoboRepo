@@ -37,7 +37,6 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
     @Override
     public void onInit() {
     }
-
     // change the names and directions to suit your robot
     private final MotorEx frontLeftMotor = new MotorEx("frontLeftMotor").reversed();
     private final MotorEx frontRightMotor = new MotorEx("frontRightMotor");
@@ -45,30 +44,35 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
     private final MotorEx backRightMotor = new MotorEx("backRightMotor");
 
     private boolean isSlow = false;
-
     @Override
     public void onStartButtonPressed() {
+
         Command driverControlled = new MecanumDriverControlled(
                 frontLeftMotor,
                 frontRightMotor,
                 backLeftMotor,
                 backRightMotor,
-                Gamepads.gamepad2().leftStickY().negate(),
-                Gamepads.gamepad2().leftStickX(),
-                Gamepads.gamepad2().rightStickX()
+                Gamepads.gamepad1().leftStickY().negate(),
+                Gamepads.gamepad1().leftStickX(),
+                Gamepads.gamepad1().rightStickX()
         );
         driverControlled.schedule();
 
-        Gamepads.gamepad1().a()
-                .toggleOnBecomesTrue()
-                .whenBecomesTrue(FlyWheels.INSTANCE.flyWheelFast)
-                .whenBecomesFalse(FlyWheels.INSTANCE.flyWheelStop);
+
+        //Old robot Code
+        //Gamepads.gamepad1().x()
+                //.toggleOnBecomesTrue()
+                //.whenBecomesTrue(FlyWheels.INSTANCE.moveServo)
+                //.whenBecomesFalse(FlyWheels.INSTANCE.returnServo);
 
 
+
+        // starts firing the balls
         Gamepads.gamepad1().x()
-                .toggleOnBecomesTrue()
-                .whenBecomesTrue(FlyWheels.INSTANCE.moveServo)
-                .whenBecomesFalse(FlyWheels.INSTANCE.returnServo);
+                .whenBecomesTrue(FlyWheels.INSTANCE.flyWheelFast
+                        .then(FlyWheels.INSTANCE.intakeStart));
+
+
 
         //fast and slow
         Gamepads.gamepad1().b()
@@ -76,11 +80,29 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
                 .whenBecomesTrue(FlyWheels.INSTANCE.flyWheelFast)
                 .whenBecomesFalse(FlyWheels.INSTANCE.flyWheelSlow);
 
-        Gamepads.gamepad1().y()
+
+
+        // Old robot code
+        //Gamepads.gamepad1().y()
                 //Extends and retracts servo on button press with a fixed delay
-                .whenBecomesTrue(FlyWheels.INSTANCE.returnServo
-                        .then(new Delay(1))
-                        .then(FlyWheels.INSTANCE.moveServo));
+                //.whenBecomesTrue(FlyWheels.INSTANCE.returnServo
+                        //.then(new Delay(1))
+                        //.then(FlyWheels.INSTANCE.moveServo));
+
+
+
+        //Turns off flywheel and starts the intake system
+        Gamepads.gamepad1().y()
+                        .whenBecomesTrue(FlyWheels.INSTANCE.flyWheelStop
+                                .then(FlyWheels.INSTANCE.intakeStart));
+
+
+        // turns on and off the intake system
+        Gamepads.gamepad1().rightBumper()
+                .toggleOnBecomesTrue()
+                .whenBecomesTrue(FlyWheels.INSTANCE.intakeStart)
+                .whenBecomesFalse(FlyWheels.INSTANCE.intakeStop);
+
 
         Gamepads.gamepad1().dpadUp()
                 .whenBecomesTrue(FlyWheels.INSTANCE.moveFlyWheelsFast
@@ -110,16 +132,16 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
                         .then(FlyWheels.INSTANCE.returnServo));
 
 
-                        //if it works it works
 
 
 
 
 
 
-        panelsTelemetry.addData("SPEED OF FLYWHEEL: ", FlyWheels.getPower());
-        panelsTelemetry.addData("SPEED OF FLYWHEEL: ", FlyWheels.getPower());
-        panelsTelemetry.update();
+
+        //panelsTelemetry.addData("SPEED OF FLYWHEEL: ", FlyWheels.getPower());
+        //panelsTelemetry.addData("SPEED OF FLYWHEEL: ", FlyWheels.getPower());
+        //panelsTelemetry.update();
 
 
     }

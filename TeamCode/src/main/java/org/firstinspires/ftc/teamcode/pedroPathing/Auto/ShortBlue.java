@@ -32,6 +32,7 @@ public class ShortBlue extends NextFTCOpMode {
     public PathChain Path1;
     public PathChain Path2;
 
+
     public void Paths() {
         Path1 = PedroComponent.follower() //Quang remember when the follower was an argument and it didnt work so we put parentheses at the end? I think this is from that but I cant find the original example project we copied from
                 .pathBuilder()
@@ -40,6 +41,8 @@ public class ShortBlue extends NextFTCOpMode {
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
+
+
     }
 
     private Command autonomousRoutine() {
