@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.FlyWheels;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.extensions.pedro.FollowPath;
@@ -32,6 +33,8 @@ public class ShortBlue extends NextFTCOpMode {
     public PathChain Path1;
     public PathChain Path2;
 
+    public PathChain Path3;
+
 
     public void Paths() {
         Path1 = PedroComponent.follower() //Quang remember when the follower was an argument and it didnt work so we put parentheses at the end? I think this is from that but I cant find the original example project we copied from
@@ -42,12 +45,38 @@ public class ShortBlue extends NextFTCOpMode {
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
 
+        Path2 = PedroComponent.follower()
+                .pathBuilder()
+                .addPath(
+                        new BezierLine(new Pose(16.413, 126.930), new Pose(56.900, 84.912))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(0))
+                .addPath(
+                        new BezierLine(new Pose(56.900, 84.912), new Pose(13.350, 84.693))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                .addPath(
+                        new BezierLine(new Pose(13.350, 84.693), new Pose(58.213, 85.131))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(135))
+                .build();
 
+        Path3 = PedroComponent.follower()
+                .pathBuilder()
+                .addPath(
+                        new BezierLine(new Pose(58.213, 85.131), new Pose(13.568, 84.474))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(0))
+                .build();
     }
 
     private Command autonomousRoutine() {
         return new SequentialGroup(
-                new FollowPath(Path1)
+                FlyWheels.INSTANCE.intakeStart,
+                new FollowPath(Path2),
+                FlyWheels.INSTANCE.flyWheelFast,
+                new Delay(3),
+                new FollowPath(Path3)
         );
     }
 

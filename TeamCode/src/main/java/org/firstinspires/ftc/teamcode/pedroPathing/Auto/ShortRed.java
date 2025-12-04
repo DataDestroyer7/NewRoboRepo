@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.FlyWheels;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.extensions.pedro.FollowPath;
@@ -30,17 +31,49 @@ public class ShortRed extends NextFTCOpMode {
     public PathChain Path1;
     public PathChain Path2;
 
+    public PathChain Path3;
+
     public void Paths() {
         Path1 = PedroComponent.follower()
                 .pathBuilder()
                 .addPath(new BezierLine(new Pose(0, 0), new Pose(0, 24)))
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
+
+        Path2 = PedroComponent.follower()
+                .pathBuilder()
+                .addPath(
+                        new BezierLine(new Pose(127.805, 127.368), new Pose(86.444, 85.131))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(180))
+                .addPath(
+                        new BezierLine(new Pose(86.444, 85.131), new Pose(131.745, 84.474))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                .addPath(
+                        new BezierLine(new Pose(131.745, 84.474), new Pose(84.036, 87.538))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(45))
+                .build();
+
+        Path3 = PedroComponent.follower()
+                .pathBuilder()
+                .addPath(
+                        new BezierLine(new Pose(86.225, 85.131), new Pose(131.745, 84.474))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                .build();
+
     }
 
     private Command autonomousRoutine() {
         return new SequentialGroup(
-                new FollowPath(Path1)
+                FlyWheels.INSTANCE.intakeStart,
+                new FollowPath(Path2),
+                FlyWheels.INSTANCE.flyWheelFast,
+                new Delay(3),
+                new FollowPath(Path3)
+
         );
     }
 

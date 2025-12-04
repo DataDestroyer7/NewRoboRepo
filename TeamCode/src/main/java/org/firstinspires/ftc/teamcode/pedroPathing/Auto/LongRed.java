@@ -30,6 +30,8 @@ public class LongRed extends NextFTCOpMode {
 
     public PathChain Path1;
     public PathChain Path2;
+    public PathChain Path3;
+    public PathChain Path4;
 
     public void Paths() {
         Path1 = PedroComponent.follower()
@@ -47,40 +49,41 @@ public class LongRed extends NextFTCOpMode {
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
+
+        Path3 = PedroComponent.follower()
+                .pathBuilder()
+                .addPath(
+                        new BezierLine(new Pose(89.289, 7.003), new Pose(89.945, 33.921))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(180))
+                .addPath(
+                        new BezierLine(new Pose(89.945, 33.921), new Pose(128.900, 33.921))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                .addPath(
+                        new BezierLine(new Pose(128.900, 33.921), new Pose(71.781, 71.781))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(45))
+                .build();
+        Path4 = PedroComponent.follower()
+                .pathBuilder()
+                .addPath(
+                        new BezierLine(new Pose(71.781, 71.781), new Pose(105.483, 71.125))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+                .build();
     }
 
     private Command autonomousRoutine() {
         return new SequentialGroup(
-                new FollowPath(Path1),
+                FlyWheels.INSTANCE.intakeStart,
+                new FollowPath(Path3),
+                FlyWheels.INSTANCE.flyWheelFast,
+                new Delay(3),
+                new FollowPath(Path4)
 
-                new Delay(1),
-                FlyWheels.INSTANCE.moveFlyWheelsFast,
-                new Delay(2),
-                FlyWheels.INSTANCE.moveServo,
-                new Delay(0.25),
-                FlyWheels.INSTANCE.stopFlyWheels,
-                new Delay(1),
-                FlyWheels.INSTANCE.returnServo,
 
-                new Delay(1),
-                FlyWheels.INSTANCE.moveFlyWheelsFast,
-                new Delay(2),
-                FlyWheels.INSTANCE.moveServo,
-                new Delay(0.25),
-                FlyWheels.INSTANCE.stopFlyWheels,
-                new Delay(1),
-                FlyWheels.INSTANCE.returnServo,
 
-                new Delay(1),
-                FlyWheels.INSTANCE.moveFlyWheelsFast,
-                new Delay(2),
-                FlyWheels.INSTANCE.moveServo,
-                new Delay(0.25),
-                FlyWheels.INSTANCE.stopFlyWheels,
-                new Delay(1),
-                FlyWheels.INSTANCE.returnServo,
-
-                new FollowPath(Path2)
         );
     }
 
