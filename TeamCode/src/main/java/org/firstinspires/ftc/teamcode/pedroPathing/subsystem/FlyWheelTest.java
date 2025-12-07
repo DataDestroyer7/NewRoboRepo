@@ -1,70 +1,88 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.subsystem;
 
 
+import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
 
 import dev.nextftc.control.ControlSystem;
 import dev.nextftc.control.KineticState;
+import dev.nextftc.control.feedback.PIDCoefficients;
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.groups.ParallelGroup;
+import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.commands.utility.InstantCommand;
 import dev.nextftc.core.subsystems.Subsystem;
 import dev.nextftc.hardware.controllable.MotorGroup;
+import dev.nextftc.hardware.controllable.RunToVelocity;
 import dev.nextftc.hardware.impl.MotorEx;
 import dev.nextftc.hardware.impl.ServoEx;
 import dev.nextftc.hardware.positionable.SetPosition;
 import dev.nextftc.hardware.powerable.SetPower;
-
 public class FlyWheelTest implements Subsystem {
     public static final FlyWheelTest INSTANCE = new FlyWheelTest();
     private FlyWheelTest() {}
 
 
-    public double targetVelocity = 0;
+
+    public  double kP = 0.001;
+    public  double kI = 0.0;
+    public  double kD = 0.0;
+    public  double kV = 0.00035;
+    public  double kA = 0.0;
+    public  double kS = 0.0;
 
     TelemetryManager panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();;
 
 
-    public boolean isFlyWheelOn = false;
+    private MotorEx leftFlyWheel = new MotorEx("left_fly").brakeMode();
+    private MotorEx rightFlyWheel = new MotorEx("right_fly").brakeMode();
 
-    private MotorEx leftFlyWheel = new MotorEx("left_fly").reversed().brakeMode();
 
-
-    //When battery is less than 13 volts
-    public Command moveFlyWheelsFast = new SetPower(leftFlyWheel, 0.8);
-
-    public Command stopFlyWheels = new SetPower(leftFlyWheel, 0);
-
-    public ControlSystem controlSystem = ControlSystem.builder()
-            .velPid(0.01, 0, 0)
+    public ControlSystem leftControlSystem = ControlSystem.builder()
+            .velPid(kP, kI, kD)
+            .basicFF(kV,kA,kS)
+            .build();
+    public ControlSystem rightControlSystem = ControlSystem.builder()
+            .velPid(kP, kI, kD)
+            .basicFF(0.00036,kA,kS)
             .build();
 
 
 
-
-    public Command flyWheelSlow = new InstantCommand(() -> {
-       targetVelocity = 1000;
-    });
-    public Command flyWheelFast = new InstantCommand(() -> {
-        targetVelocity = 1500;
-    });
-    public Command flyWheelStop = new InstantCommand(() -> {
-        targetVelocity = 0;
-    });
-
-
+    public Command flyWheelStop = new ParallelGroup(
+            new RunToVelocity(leftControlSystem, 0).requires(this),
+            new RunToVelocity(rightControlSystem, 0).requires(this)
+    );
+    public Command flyWheelFast = new ParallelGroup(
+            new RunToVelocity(leftControlSystem, -1500).requires(this),
+            new RunToVelocity(rightControlSystem, 1500).requires(this)
+    );
+    public Command flyWheelSlow = new ParallelGroup(
+            new RunToVelocity(leftControlSystem, -1000).requires(this),
+            new RunToVelocity(rightControlSystem, 1000).requires(this)
+    );
 
     @Override
     public void periodic(){
         leftFlyWheel.setPower(
-                controlSystem.calculate(
-                        new KineticState(0, targetVelocity)
+                leftControlSystem.calculate(
+                        leftFlyWheel.getState()
                 )
 
 
         );
-        panelsTelemetry.addData("ACTUAL SPEED OF FLYWHEEL: ",leftFlyWheel.getVelocity());
-        panelsTelemetry.addData("TARGET SPEED OF FLYWHEEL: ", targetVelocity);
+        rightFlyWheel.setPower(
+                rightControlSystem.calculate(
+                        rightFlyWheel.getState()
+                )
+
+
+        );
+        panelsTelemetry.addData("ACTUAL SPEED OF LEFT FLYWHEEL: ",leftFlyWheel.getVelocity());
+        panelsTelemetry.addData("TARGET SPEED OF LEFT FLYWHEEL: ", leftControlSystem.getGoal().getVelocity());
+        panelsTelemetry.addData("ACTUAL SPEED OF RIGHT FLYWHEEL: ",rightFlyWheel.getVelocity());
+        panelsTelemetry.addData("TARGET SPEED OF RIGHT FLYWHEEL: ", rightControlSystem.getGoal().getVelocity());
         panelsTelemetry.update();
     }
 

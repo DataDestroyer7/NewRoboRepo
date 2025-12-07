@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.FlyWheels;
+import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.intakeSys;
 
 import dev.nextftc.core.commands.Command;
 import dev.nextftc.core.commands.delays.Delay;
@@ -22,7 +23,7 @@ import static dev.nextftc.extensions.pedro.PedroComponent.follower;
 public class LongBlue extends NextFTCOpMode {
     public LongBlue() {
         addComponents(
-                new SubsystemComponent(FlyWheels.INSTANCE),
+                new SubsystemComponent(FlyWheels.INSTANCE, intakeSys.INSTANCE),
                 BulkReadComponent.INSTANCE,
                 new PedroComponent(Constants::createFollower)
         );
@@ -85,7 +86,7 @@ public class LongBlue extends NextFTCOpMode {
 
     private Command autonomousRoutine() {
         return new SequentialGroup(
-                FlyWheels.INSTANCE.intakeStart,
+                intakeSys.INSTANCE.intakeStart,
                 new FollowPath(Path3),
                 FlyWheels.INSTANCE.flyWheelFast,
                 new Delay(3),
