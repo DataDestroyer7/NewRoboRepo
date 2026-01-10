@@ -51,16 +51,16 @@ public class FlyWheelTest implements Subsystem {
 
 
     public Command flyWheelStop = new ParallelGroup(
-            new RunToVelocity(leftControlSystem, 0).requires(this),
-            new RunToVelocity(rightControlSystem, 0).requires(this)
+            new RunToVelocity(leftControlSystem, 0),
+            new RunToVelocity(rightControlSystem, 0)
     );
     public Command flyWheelFast = new ParallelGroup(
-            new RunToVelocity(leftControlSystem, -1500).requires(this),
-            new RunToVelocity(rightControlSystem, 1500).requires(this)
+            new RunToVelocity(leftControlSystem, -1500),
+            new RunToVelocity(rightControlSystem, 1500)
     );
     public Command flyWheelSlow = new ParallelGroup(
-            new RunToVelocity(leftControlSystem, -1000).requires(this),
-            new RunToVelocity(rightControlSystem, 1000).requires(this)
+            new RunToVelocity(leftControlSystem, -1000),
+            new RunToVelocity(rightControlSystem, 1000)
     );
 
     @Override

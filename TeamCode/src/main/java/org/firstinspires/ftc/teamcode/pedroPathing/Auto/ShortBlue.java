@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.Auto;
 
-
-import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
@@ -12,7 +10,6 @@ import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.FlyWheels;
 import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.intakeSys;
 
 import dev.nextftc.core.commands.Command;
-import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.extensions.pedro.FollowPath;
@@ -20,7 +17,7 @@ import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 
-@Autonomous(name = "Long Red Autonomous")
+@Autonomous(name = "Short Blue Autonomous")
 public class ShortBlue extends NextFTCOpMode {
     public ShortBlue() {
         addComponents(
@@ -30,54 +27,70 @@ public class ShortBlue extends NextFTCOpMode {
         );
     }
 
-    private Follower follower;
     public PathChain Path1;
     public PathChain Path2;
 
     public PathChain Path3;
 
+    public PathChain Path4;
+
 
     public void Paths() {
-        Path1 = PedroComponent.follower() //Quang remember when the follower was an argument and it didnt work so we put parentheses at the end? I think this is from that but I cant find the original example project we copied from
+        // THIS IS SHORT BLUE BY CHANDLER
+        Path1 = PedroComponent.follower()
                 .pathBuilder()
                 .addPath(
-                        new BezierLine(new Pose(0, 0), new Pose(0, -24))
+                        new BezierLine(new Pose(0, 0), new Pose(-58, 0))
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
-
+        // THIS IS LONG BLUE BY JOSIAH AND FACING WRONG DIRECTION
         Path2 = PedroComponent.follower()
                 .pathBuilder()
                 .addPath(
-                        new BezierLine(new Pose(16.413, 126.930), new Pose(56.900, 84.912))
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(0))
-                .addPath(
-                        new BezierLine(new Pose(56.900, 84.912), new Pose(13.350, 84.693))
+                        new BezierLine(new Pose(-58, 0), new Pose(-58, 16))
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
-                .addPath(
-                        new BezierLine(new Pose(13.350, 84.693), new Pose(58.213, 85.131))
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(135))
                 .build();
 
         Path3 = PedroComponent.follower()
                 .pathBuilder()
                 .addPath(
-                        new BezierLine(new Pose(58.213, 85.131), new Pose(13.568, 84.474))
+                        new BezierLine(new Pose(61.495, 14.225), new Pose(61.277, 36.547))
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(0))
+
+                .addPath(
+                        new BezierLine(new Pose(61.277, 36.547), new Pose(12.474, 35.672))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                .addPath(
+                        new BezierLine(new Pose(12.474, 35.672), new Pose(71.781, 72.438))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(135))
+                .addPath(
+                        new BezierLine(new Pose(71.781, 72.438), new Pose(71.781, 48.146))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(270))
+                .build();
+
+        Path4 = PedroComponent.follower()
+                .pathBuilder()
+                .addPath(
+                        new BezierLine(new Pose(72.438, 71.781), new Pose(71.781, 48.146))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(270))
                 .build();
     }
 
     private Command autonomousRoutine() {
         return new SequentialGroup(
-                intakeSys.INSTANCE.intakeStart,
-                new FollowPath(Path2),
-                FlyWheels.INSTANCE.flyWheelFast,
-                new Delay(3),
-                new FollowPath(Path3)
+                //intakeSys.INSTANCE.intakeStart,
+                new FollowPath(Path1),
+                //FlyWheels.INSTANCE.flyWheelSlow,
+                //new Delay(3),
+                new FollowPath(Path2)
+
         );
     }
 
@@ -85,6 +98,7 @@ public class ShortBlue extends NextFTCOpMode {
     public void onInit() {
         Paths();
     }
+
     @Override
     public void onStartButtonPressed() {
         autonomousRoutine().schedule();

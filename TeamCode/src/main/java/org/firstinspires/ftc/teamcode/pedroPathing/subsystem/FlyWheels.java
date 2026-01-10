@@ -51,12 +51,12 @@ public class FlyWheels implements Subsystem {
             new RunToVelocity(rightControlSystem, 0)
     );
     public Command flyWheelFast = new ParallelGroup(
-            new RunToVelocity(leftControlSystem, -1500),
-            new RunToVelocity(rightControlSystem, 1500)
+            new RunToVelocity(leftControlSystem, -1850),
+            new RunToVelocity(rightControlSystem, 1850)
     );
     public Command flyWheelSlow = new ParallelGroup(
-            new RunToVelocity(leftControlSystem, -1000),
-            new RunToVelocity(rightControlSystem, 1000)
+            new RunToVelocity(leftControlSystem, -1500),
+            new RunToVelocity(rightControlSystem, 1500)
     );
 
     @Override

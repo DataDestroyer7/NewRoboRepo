@@ -66,10 +66,15 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
                 .whenBecomesTrue(FlyWheels.INSTANCE.flyWheelSlow)
                 .whenBecomesFalse(FlyWheels.INSTANCE.flyWheelStop);
 
-        Gamepads.gamepad1().x()
-                .toggleOnBecomesTrue()
+        Gamepads.gamepad1().rightTrigger().greaterThan(0.2)
                 .whenBecomesTrue(intakeSys.INSTANCE.intakeStart)
                 .whenBecomesFalse(intakeSys.INSTANCE.intakeStop);
+
+        Gamepads.gamepad1().leftTrigger().greaterThan(0.2)
+                .whenBecomesTrue(intakeSys.INSTANCE.intakeReverse)
+                .whenBecomesFalse(intakeSys.INSTANCE.intakeStop);
+
+
         /*
         //Old robot Code
         //Gamepads.gamepad1().x()

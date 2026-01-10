@@ -10,16 +10,14 @@ import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.FlyWheels;
 import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.intakeSys;
 
 import dev.nextftc.core.commands.Command;
-import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.extensions.pedro.FollowPath;
 import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
-import static dev.nextftc.extensions.pedro.PedroComponent.follower;
 
-@Autonomous(name = "Short Blue Autonomous")
+@Autonomous(name = "Long Blue Autonomous")
 public class LongBlue extends NextFTCOpMode {
     public LongBlue() {
         addComponents(
@@ -34,63 +32,47 @@ public class LongBlue extends NextFTCOpMode {
 
     public PathChain Path3;
 
-    public PathChain Path4;
-
-
     public void Paths() {
+        // THIS IS LONG BLUE BY CHANDLER
         Path1 = PedroComponent.follower()
                 .pathBuilder()
-                .addPath(
-                        new BezierLine(new Pose(0, 0), new Pose(-58, 0))
-                )
+                .addPath(new BezierLine(new Pose(0, 0), new Pose(0, 24)))
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
-
+        // THIS IS SHORT RED BY JOSIAH AND IS FACING WRONG DIRECTION
         Path2 = PedroComponent.follower()
                 .pathBuilder()
                 .addPath(
-                        new BezierLine(new Pose(-58, 0), new Pose(-58, 16))
+                        new BezierLine(new Pose(127.805, 127.368), new Pose(86.444, 85.131))
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(180))
+                .addPath(
+                        new BezierLine(new Pose(86.444, 85.131), new Pose(131.745, 84.474))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                .addPath(
+                        new BezierLine(new Pose(131.745, 84.474), new Pose(84.036, 87.538))
+                )
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(45))
                 .build();
 
         Path3 = PedroComponent.follower()
                 .pathBuilder()
                 .addPath(
-                        new BezierLine(new Pose(61.495, 14.225), new Pose(61.277, 36.547))
+                        new BezierLine(new Pose(86.225, 85.131), new Pose(131.745, 84.474))
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(0))
-
-                .addPath(
-                        new BezierLine(new Pose(61.277, 36.547), new Pose(12.474, 35.672))
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
-                .addPath(
-                        new BezierLine(new Pose(12.474, 35.672), new Pose(71.781, 72.438))
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(135))
-                .addPath(
-                        new BezierLine(new Pose(71.781, 72.438), new Pose(71.781, 48.146))
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(270))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
                 .build();
 
-        Path4 = PedroComponent.follower()
-                .pathBuilder()
-                .addPath(
-                        new BezierLine(new Pose(72.438, 71.781), new Pose(71.781, 48.146))
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(270))
-                .build();
     }
 
     private Command autonomousRoutine() {
         return new SequentialGroup(
-                intakeSys.INSTANCE.intakeStart,
-                new FollowPath(Path3),
-                FlyWheels.INSTANCE.flyWheelFast,
-                new Delay(3),
-                new FollowPath(Path4)
+                //intakeSys.INSTANCE.intakeStart,
+                new FollowPath(Path1)
+                //FlyWheels.INSTANCE.flyWheelSlow,
+                //new Delay(3),
+                //new FollowPath(Path3)
 
         );
     }

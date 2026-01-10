@@ -27,4 +27,6 @@ public class intakeSys implements Subsystem {
     public Command intakeStop = new SetPower(intake, 0);
     public Command intakeStart = new SetPower(intake, 1);
 
+    public Command intakeReverse = new SetPower(intake, -1);
+
 }
