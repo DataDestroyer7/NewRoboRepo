@@ -10,14 +10,17 @@ import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.FlyWheels;
 import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.intakeSys;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.delays.Delay;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.SubsystemComponent;
+import dev.nextftc.core.units.Angle;
 import dev.nextftc.extensions.pedro.FollowPath;
 import dev.nextftc.extensions.pedro.PedroComponent;
+import dev.nextftc.extensions.pedro.TurnTo;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 
-@Autonomous(name = "Short Red Autonomous")
+@Autonomous(name = "Short Red Auto")
 public class ShortRedN extends NextFTCOpMode {
     public ShortRedN() {
         addComponents(
@@ -49,7 +52,6 @@ public class ShortRedN extends NextFTCOpMode {
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
-
         Path3 = PedroComponent.follower()
                 .pathBuilder()
                 .addPath(
@@ -78,8 +80,7 @@ public class ShortRedN extends NextFTCOpMode {
         return new SequentialGroup(
                 //intakeSys.INSTANCE.intakeStart,
                 new FollowPath(Path1),
-                //FlyWheels.INSTANCE.flyWheelSlow,
-                //new Delay(3),
+                
                 new FollowPath(Path2)
 
 

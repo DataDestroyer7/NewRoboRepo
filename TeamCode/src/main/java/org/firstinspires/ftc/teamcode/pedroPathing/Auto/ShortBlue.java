@@ -17,7 +17,7 @@ import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 
-@Autonomous(name = "Short Blue Autonomous")
+@Autonomous(name = "Short Blue Auton")
 public class ShortBlue extends NextFTCOpMode {
     public ShortBlue() {
         addComponents(

@@ -19,7 +19,7 @@ import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 
-@Autonomous(name = "Long Red Autonomous")
+@Autonomous(name = "Long Right Auto")
 public class LongRedN extends NextFTCOpMode {
     public LongRedN() {
         addComponents(
@@ -45,13 +45,13 @@ public class LongRedN extends NextFTCOpMode {
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
-        // THIS IS FOR SHORT BLUE BY JOSIAH AND IS FACING THE WRONG DIRECTION
+        // THIS IS FOR SHORT BLUE BY JOSIAH AND MAYBE FIXED?
         Path2 = PedroComponent.follower()
                 .pathBuilder()
                 .addPath(
                         new BezierLine(new Pose(16.413, 126.930), new Pose(56.900, 84.912))
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(180))
                 .addPath(
                         new BezierLine(new Pose(56.900, 84.912), new Pose(13.350, 84.693))
                 )
@@ -59,7 +59,7 @@ public class LongRedN extends NextFTCOpMode {
                 .addPath(
                         new BezierLine(new Pose(13.350, 84.693), new Pose(58.213, 85.131))
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(135))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(315))
                 .build();
 
         Path3 = PedroComponent.follower()
@@ -67,7 +67,7 @@ public class LongRedN extends NextFTCOpMode {
                 .addPath(
                         new BezierLine(new Pose(58.213, 85.131), new Pose(13.568, 84.474))
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(315), Math.toRadians(180))
                 .build();
     }
 

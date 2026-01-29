@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing.TeleOp;
 
 import com.bylazar.telemetry.TelemetryManager;
+import com.pedropathing.ftc.localization.localizers.PinpointLocalizer;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
@@ -10,14 +11,20 @@ import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.intakeSys;
 
 import dev.nextftc.core.commands.Command;
 import com.bylazar.telemetry.PanelsTelemetry;
+import com.qualcomm.robotcore.hardware.IMU;
+
 import dev.nextftc.core.components.BindingsComponent;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.extensions.pedro.PedroComponent;
+import dev.nextftc.extensions.pedro.PedroDriverControlled;
 import dev.nextftc.ftc.Gamepads;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
+import dev.nextftc.hardware.driving.DriverControlledCommand;
+import dev.nextftc.hardware.driving.FieldCentric;
 import dev.nextftc.hardware.driving.MecanumDriverControlled;
 import dev.nextftc.hardware.impl.Direction;
+import dev.nextftc.hardware.impl.IMUEx;
 import dev.nextftc.hardware.impl.MotorEx;
 
 @TeleOp(name = "Beta TeleOp")
@@ -26,9 +33,12 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
         addComponents(
                 new SubsystemComponent(FlyWheels.INSTANCE, intakeSys.INSTANCE),
                 BulkReadComponent.INSTANCE,
+                new PedroComponent(Constants::createFollower),
                 BindingsComponent.INSTANCE
         );
     }
+
+
 
     //TelemetryManager panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();;
 
@@ -41,17 +51,16 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
     private final MotorEx backLeftMotor = new MotorEx("backLeftMotor").reversed();
     private final MotorEx backRightMotor = new MotorEx("backRightMotor");
 
+    //private IMUEx imu = new IMUEx("pinpoint", Direction.UP, Direction.FORWARD).zeroed();
+
     @Override
     public void onStartButtonPressed() {
 
-        Command driverControlled = new MecanumDriverControlled(
-                frontLeftMotor,
-                frontRightMotor,
-                backLeftMotor,
-                backRightMotor,
+        DriverControlledCommand driverControlled = new PedroDriverControlled(
                 Gamepads.gamepad1().leftStickY().negate(),
-                Gamepads.gamepad1().leftStickX(),
-                Gamepads.gamepad1().rightStickX()
+                Gamepads.gamepad1().leftStickX().negate(),
+                Gamepads.gamepad1().rightStickX(),
+                false
         );
         driverControlled.schedule();
 
@@ -74,6 +83,10 @@ public class PedroTeleOpBeta extends NextFTCOpMode {
                 .whenBecomesTrue(intakeSys.INSTANCE.intakeReverse)
                 .whenBecomesFalse(intakeSys.INSTANCE.intakeStop);
 
+        Gamepads.gamepad1().dpadUp()
+                .toggleOnBecomesTrue()
+                .whenBecomesTrue(FlyWheels.INSTANCE.flyWheelTest)
+                .whenBecomesFalse(FlyWheels.INSTANCE.flyWheelStop);
 
         /*
         //Old robot Code

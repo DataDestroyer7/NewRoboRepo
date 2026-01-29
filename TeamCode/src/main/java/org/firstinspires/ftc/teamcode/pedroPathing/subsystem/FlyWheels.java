@@ -59,6 +59,11 @@ public class FlyWheels implements Subsystem {
             new RunToVelocity(rightControlSystem, 1500)
     );
 
+    public Command flyWheelTest = new ParallelGroup(
+            new RunToVelocity(leftControlSystem, -1400),
+            new RunToVelocity(rightControlSystem, 1400)
+    );
+
     @Override
     public void periodic(){
         leftFlyWheel.setPower(

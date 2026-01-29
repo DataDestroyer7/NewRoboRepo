@@ -10,6 +10,9 @@ import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.FlyWheels;
 import org.firstinspires.ftc.teamcode.pedroPathing.subsystem.intakeSys;
 
 import dev.nextftc.core.commands.Command;
+import dev.nextftc.core.commands.delays.Delay;
+import dev.nextftc.core.commands.groups.ParallelDeadlineGroup;
+import dev.nextftc.core.commands.groups.ParallelGroup;
 import dev.nextftc.core.commands.groups.SequentialGroup;
 import dev.nextftc.core.components.SubsystemComponent;
 import dev.nextftc.extensions.pedro.FollowPath;
@@ -17,9 +20,9 @@ import dev.nextftc.extensions.pedro.PedroComponent;
 import dev.nextftc.ftc.NextFTCOpMode;
 import dev.nextftc.ftc.components.BulkReadComponent;
 
-@Autonomous(name = "Long Left Auto")
-public class LongBlue extends NextFTCOpMode {
-    public LongBlue() {
+@Autonomous(name = "Short Red 2 Auto")
+public class ShortRed2 extends NextFTCOpMode {
+    public ShortRed2() {
         addComponents(
                 new SubsystemComponent(FlyWheels.INSTANCE, intakeSys.INSTANCE),
                 BulkReadComponent.INSTANCE,
@@ -30,50 +33,42 @@ public class LongBlue extends NextFTCOpMode {
     public PathChain Path1;
     public PathChain Path2;
 
-    public PathChain Path3;
-
     public void Paths() {
-        // THIS IS LONG BLUE BY CHANDLER
+        // THIS IS SHORT RED BY CHANDLER
         Path1 = PedroComponent.follower()
                 .pathBuilder()
-                .addPath(new BezierLine(new Pose(0, 0), new Pose(0, 24)))
+                .addPath(
+                        new BezierLine(new Pose(0, 0), new Pose(58, 0))
+                )
                 .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
-        // THIS IS SHORT RED BY JOSIAH AND IS FACING WRONG DIRECTION
+        // THIS IS LONG RED BY JOSIAH AND FACING THE WRONG DIRECTION
         Path2 = PedroComponent.follower()
                 .pathBuilder()
                 .addPath(
-                        new BezierLine(new Pose(127.805, 127.368), new Pose(86.444, 85.131))
+                        new BezierLine(new Pose(58, 0), new Pose(58, 16))
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(125), Math.toRadians(360))
-                .addPath(
-                        new BezierLine(new Pose(86.444, 85.131), new Pose(131.745, 84.474))
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(360), Math.toRadians(360))
-                .addPath(
-                        new BezierLine(new Pose(131.745, 84.474), new Pose(84.036, 87.538))
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(45))
+                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
                 .build();
-
-        Path3 = PedroComponent.follower()
-                .pathBuilder()
-                .addPath(
-                        new BezierLine(new Pose(86.225, 85.131), new Pose(131.745, 84.474))
-                )
-                .setLinearHeadingInterpolation(Math.toRadians(360), Math.toRadians(360))
-                .build();
-
     }
 
     private Command autonomousRoutine() {
         return new SequentialGroup(
-                //intakeSys.INSTANCE.intakeStart,
-                new FollowPath(Path1)
-                //FlyWheels.INSTANCE.flyWheelSlow,
-                //new Delay(3),
-                //new FollowPath(Path3)
-
+                new FollowPath(Path1),
+                new ParallelDeadlineGroup(
+                        new Delay(4),
+                        FlyWheels.INSTANCE.flyWheelSlow,
+                        new SequentialGroup(
+                                new Delay(0.5),
+                                intakeSys.INSTANCE.intakeStart
+                        )
+                ),
+                new ParallelDeadlineGroup(
+                        new Delay(2),
+                        FlyWheels.INSTANCE.flyWheelStop,
+                        intakeSys.INSTANCE.intakeStop
+                ),
+                new FollowPath(Path2)
         );
     }
 
